@@ -45,6 +45,10 @@ function App() {
             <Route path="/mypage" element={<MyCourses />} />
             <Route path="/mypage/index" element={<MyCourses />} />
             <Route path="/mypage/vodplayer/:vodNo" element={<VodPlayer />} />
+            <Route path="/notice/detail/:id" element={<NoticeDetail />} />
+            <Route path="/notice" element={<NoticeList />} />
+            <Route path="/notice/index" element={<NoticeList />} />
+            <Route path="/notice/write" element={<NoticeWrite />} />
           </Route>
         </Routes>
       </BrowserRouter>
