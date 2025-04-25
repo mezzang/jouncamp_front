@@ -1,51 +1,76 @@
 import React from "react";
 import styled from "styled-components";
 
-const PopupWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: white;
-  border: 1px solid #ccc;
-  overflow: hidden;
+const PopupContainer = styled.div`
+  width: ${(props) => props.width}px;
+  margin: 0;
+  padding: 0;
 `;
 
-const PopupContent = styled.div`
-  padding: 10px;
-  height: calc(100% - 40px);
-  overflow: auto;
+const PopupImage = styled.img`
+  width: ${(props) => props.width}px;
+  height: ${(props) => props.height}px;
+  border: 0;
 `;
 
 const PopupFooter = styled.div`
+  width: 100%;
   display: flex;
-  justify-content: space-between;
-  padding: 5px 10px;
-  background-color: #f1f1f1;
-  border-top: 1px solid #ddd;
+  background-color: #000000;
 `;
 
-const CloseButton = styled.button`
-  background: none;
-  border: none;
+const TodayCloseButton = styled.img`
+  width: 116px;
+  height: 25px;
   cursor: pointer;
-  padding: 5px;
-  font-size: 14px;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
-// 팝업 컴포넌트
-const Popup = ({ content, onClose, onCloseToday }) => {
+const CloseButton = styled.img`
+  width: 54px;
+  height: 25px;
+  cursor: pointer;
+`;
+
+const PopupContent = ({ popup, onClose, onCloseToday }) => {
   return (
-    <PopupWrapper>
-      <PopupContent dangerouslySetInnerHTML={{ __html: content }} />
+    <PopupContainer width={popup.width}>
+      <div>
+        {popup.url ? (
+          <a href={popup.url} target="_blank" rel="noopener noreferrer">
+            <PopupImage
+              src={`/files/Popup/${popup.filename1}`}
+              width={popup.width}
+              height={popup.height}
+              alt={popup.title}
+            />
+          </a>
+        ) : (
+          <PopupImage
+            src={`/files/Popup/${popup.filename1}`}
+            width={popup.width}
+            height={popup.height}
+            alt={popup.title}
+          />
+        )}
+      </div>
       <PopupFooter>
-        <CloseButton onClick={onCloseToday}>오늘 하루 열지 않음</CloseButton>
-        <CloseButton onClick={onClose}>닫기</CloseButton>
+        <div>
+          <TodayCloseButton
+            src="/img/popup/btn_today_stop.gif"
+            onClick={() => onCloseToday(popup.no)}
+            alt="오늘 하루 열지 않음"
+          />
+        </div>
+        <div>
+          <CloseButton
+            src="/img/popup/btn_close.gif"
+            onClick={() => onClose(popup.no)}
+            alt="닫기"
+          />
+        </div>
       </PopupFooter>
-    </PopupWrapper>
+    </PopupContainer>
   );
 };
 
-export default Popup;
+export default PopupContent;

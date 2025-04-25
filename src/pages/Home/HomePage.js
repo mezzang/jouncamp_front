@@ -91,17 +91,17 @@ const HomePage = () => {
     return unescape(cookieValue);
   };
 
-  // 팝업 닫기 (하루동안 열지 않음)
-  const closeWin = (no) => {
-    setCookie(`maindiv${no}`, "done", 1);
+  // 팝업 닫기 (쿠키 저장하지 않음)
+  const handleClose = (no) => {
     setPopupVisibility((prev) => ({
       ...prev,
       [no]: false,
     }));
   };
 
-  // 팝업 닫기 (쿠키 저장하지 않음)
-  const noCloseWin = (no) => {
+  // 팝업 닫기 (하루동안 열지 않음)
+  const handleCloseToday = (no) => {
+    setCookie(`maindiv${no}`, "done", 1);
     setPopupVisibility((prev) => ({
       ...prev,
       [no]: false,
@@ -119,13 +119,10 @@ const HomePage = () => {
           y={popup.positionY}
           visible={popupVisibility[popup.no]}
         >
-          <PopupIframe
-            src={`/Popup/Index/${popup.no}`}
-            name={`popframe${popup.no}`}
-            id={`popframe${popup.no}`}
-            width={popup.width}
-            height={popup.height}
-            frameBorder="0"
+          <PopupContent
+            popup={popup}
+            onClose={handleClose}
+            onCloseToday={handleCloseToday}
           />
         </PopupContainer>
       ))}
