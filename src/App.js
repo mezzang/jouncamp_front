@@ -36,6 +36,8 @@ function App() {
             <Route path="/data" element={<DataList />} />
             <Route path="/data/index" element={<DataList />} />
             <Route path="/" element={<HomePage />} />
+            <Route path="/member/login" element={<Login />} />
+            <Route path="/member/register" element={<Register />} />
           </Route>
         </Routes>
       </BrowserRouter>
