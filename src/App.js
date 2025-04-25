@@ -38,6 +38,13 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/member/login" element={<Login />} />
             <Route path="/member/register" element={<Register />} />
+            <Route
+              path="/mypage/course/:orderCode"
+              element={<CourseDetail />}
+            />
+            <Route path="/mypage" element={<MyCourses />} />
+            <Route path="/mypage/index" element={<MyCourses />} />
+            <Route path="/mypage/vodplayer/:vodNo" element={<VodPlayer />} />
           </Route>
         </Routes>
       </BrowserRouter>
