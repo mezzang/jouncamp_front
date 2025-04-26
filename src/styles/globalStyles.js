@@ -50,7 +50,6 @@ const GlobalStyles = createGlobalStyle`
     line-height: 60px;
   }
   
-  /* 기본 본문 스타일 */
   body {
     margin: 0;
     padding: 0;
@@ -60,18 +59,10 @@ const GlobalStyles = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  /* 컨테이너 스타일 */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 15px;
-  }
-  
-  /* 메인 콘텐츠 영역 스타일 */
-  main {
-    min-height: calc(100vh - 160px); /* 헤더와 푸터를 제외한 최소 높이 */
-    padding-bottom: 3rem;
+
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+      monospace;
   }
 `;
 

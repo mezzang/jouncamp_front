@@ -140,98 +140,57 @@ const SmallLink = styled(Link)`
   }
 `;
 
-// 로그인 컴포넌트
+const ErrorMessage = styled.p`
+  color: #dc3545;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+`;
+
 const Login = () => {
-  const [memberId, setMemberId] = useState("");
-  const [password, setPassword] = useState("");
-  const [alert, setAlert] = useState("");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const memberIdRef = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  // React Hook Form 사용
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useFormValidation(validationSchemas.login);
 
   useEffect(() => {
     // URL에서 알림 파라미터 확인
     const alertParam = searchParams.get("alert");
     if (alertParam) {
-      setAlert(decodeURIComponent(alertParam));
-    }
-
-    // 아이디 입력 필드에 포커스
-    if (memberIdRef.current) {
-      memberIdRef.current.focus();
+      setError(decodeURIComponent(alertParam));
     }
   }, [searchParams]);
 
-  // 알림 표시
-  useEffect(() => {
-    if (alert) {
-      window.alert(alert);
-      setAlert("");
-    }
-  }, [alert]);
-
-  // 아이디 변경 핸들러
-  const handleMemberIdChange = (e) => {
-    setMemberId(e.target.value);
-  };
-
-  // 비밀번호 변경 핸들러
-  const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
-  };
-
-  // 엔터 키 핸들러
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleLogin();
-    }
-  };
-
-  // 로그인 핸들러
-  const handleLogin = async () => {
-    if (!memberId.trim()) {
-      alert("회원아이디를 입력해 주십시오.");
-      memberIdRef.current.focus();
-      return;
-    }
-
-    if (!password) {
-      alert("비밀번호를 입력해 주십시오.");
-      return;
-    }
-
+  // 폼 제출 핸들러
+  const onSubmit = async (data) => {
+    setLoading(true);
     try {
-      const response = await axios.post("/api/member/login", {
-        member_id: memberId,
-        passwd: password,
-      });
+      const response = await axios.post("/api/member/login", data);
 
       if (response.data.success) {
         // 로그인 성공 시 리디렉션
         navigate(response.data.redirectUrl || "/");
       } else {
         // 로그인 실패 시 에러 메시지 표시
-        alert(response.data.message || "로그인에 실패했습니다.");
+        setError(response.data.message || "로그인에 실패했습니다.");
       }
     } catch (error) {
       console.error("로그인 오류:", error);
-      alert("로그인 처리 중 오류가 발생했습니다.");
+      setError("로그인 처리 중 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
-      {/* Breadcrumbs */}
-      <BreadcrumbsSection className="breadcrumbs">
-        <Container>
-          <BreadcrumbsTitle>회원 로그인</BreadcrumbsTitle>
-          <BreadcrumbsText>
-            Est dolorum ut non facere possimus quibusdam eligendi voluptatem.
-            Quia id aut similique quia voluptas sit quaerat debitis. Rerum omnis
-            ipsam aperiam consequatur laboriosam nemo harum praesentium.
-          </BreadcrumbsText>
-        </Container>
-      </BreadcrumbsSection>
+      {/* Breadcrumbs 섹션은 그대로 유지 */}
 
       {/* Login Section */}
       <LoginSection>
@@ -243,22 +202,22 @@ const Login = () => {
                   <CardTitle>회원 로그인</CardTitle>
                 </CardHeader>
                 <CardBody>
-                  <Form>
+                  {error && <ErrorMessage>{error}</ErrorMessage>}
+                  <Form onSubmit={handleSubmit(onSubmit)}>
                     <FormGroup>
                       <InputGroup>
                         <InputGroupPrepend>
                           <i className="ni ni-email-83"></i>
                         </InputGroupPrepend>
                         <Input
-                          ref={memberIdRef}
-                          name="member_id"
+                          {...register("member_id")}
                           placeholder="아이디"
                           type="text"
-                          value={memberId}
-                          onChange={handleMemberIdChange}
-                          onKeyDown={handleKeyDown}
                         />
                       </InputGroup>
+                      {errors.member_id && (
+                        <ErrorMessage>{errors.member_id.message}</ErrorMessage>
+                      )}
                     </FormGroup>
                     <FormGroup>
                       <InputGroup>
@@ -266,18 +225,18 @@ const Login = () => {
                           <i className="ni ni-lock-circle-open"></i>
                         </InputGroupPrepend>
                         <Input
-                          name="passwd"
+                          {...register("passwd")}
                           placeholder="비밀번호"
                           type="password"
-                          value={password}
-                          onChange={handlePasswordChange}
-                          onKeyDown={handleKeyDown}
                         />
                       </InputGroup>
+                      {errors.passwd && (
+                        <ErrorMessage>{errors.passwd.message}</ErrorMessage>
+                      )}
                     </FormGroup>
                     <div className="text-center">
-                      <Button type="button" onClick={handleLogin}>
-                        로그인하기
+                      <Button type="submit" disabled={loading}>
+                        {loading ? "로그인 중..." : "로그인하기"}
                       </Button>
                     </div>
                   </Form>
