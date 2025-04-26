@@ -1,16 +1,20 @@
 import React from "react";
 import styled from "styled-components";
 
-const PopupContainer = styled.div`
-  width: ${(props) => props.width}px;
-  margin: 0;
-  padding: 0;
-`;
-
-const PopupImage = styled.img`
+const PopupTable = styled.div`
   width: ${(props) => props.width}px;
   height: ${(props) => props.height}px;
-  border: 0;
+  margin: 0;
+  padding: 0;
+  background-image: url("/files/Popup/${(props) => props.image}");
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const PopupContent = styled.div`
+  flex: 1;
 `;
 
 const PopupFooter = styled.div`
@@ -31,28 +35,19 @@ const CloseButton = styled.img`
   cursor: pointer;
 `;
 
-const PopupContent = ({ popup, onClose, onCloseToday }) => {
-  return (
-    <PopupContainer width={popup.width}>
-      <div>
-        {popup.url ? (
-          <a href={popup.url} target="_blank" rel="noopener noreferrer">
-            <PopupImage
-              src={`/files/Popup/${popup.filename1}`}
-              width={popup.width}
-              height={popup.height}
-              alt={popup.title}
-            />
-          </a>
-        ) : (
-          <PopupImage
-            src={`/files/Popup/${popup.filename1}`}
-            width={popup.width}
-            height={popup.height}
-            alt={popup.title}
-          />
-        )}
-      </div>
+const PopupWrapper = styled.div`
+  margin: 0;
+  padding: 0;
+`;
+
+const PopupContentComponent = ({ popup, onClose, onCloseToday }) => {
+  const PopupInner = () => (
+    <PopupTable
+      width={popup.width}
+      height={popup.height}
+      image={popup.filename1}
+    >
+      <PopupContent dangerouslySetInnerHTML={{ __html: popup.memo }} />
       <PopupFooter>
         <div>
           <TodayCloseButton
@@ -69,8 +64,20 @@ const PopupContent = ({ popup, onClose, onCloseToday }) => {
           />
         </div>
       </PopupFooter>
-    </PopupContainer>
+    </PopupTable>
+  );
+
+  return (
+    <PopupWrapper>
+      {popup.url ? (
+        <a href={popup.url} target="_blank" rel="noopener noreferrer">
+          <PopupInner />
+        </a>
+      ) : (
+        <PopupInner />
+      )}
+    </PopupWrapper>
   );
 };
 
-export default PopupContent;
+export default PopupContentComponent;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import PopupContent from "../../components/Popup/PopupContent";
 
 // 스타일 컴포넌트 정의
 const PopupContainer = styled.div`

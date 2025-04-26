@@ -49,6 +49,7 @@ function App() {
             <Route path="/notice" element={<NoticeList />} />
             <Route path="/notice/index" element={<NoticeList />} />
             <Route path="/notice/write" element={<NoticeWrite />} />
+            <Route path="/qna/detail/:id" element={<QnaDetail />} />
           </Route>
         </Routes>
       </BrowserRouter>
