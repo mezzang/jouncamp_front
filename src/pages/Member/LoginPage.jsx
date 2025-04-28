@@ -1,0 +1,107 @@
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
+
+function LoginPage() {
+  const [memberId, setMemberId] = useState("");
+  const [passwd, setPasswd] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    if (!memberId.trim()) {
+      alert("회원아이디를 입력해 주십시오.");
+      return;
+    }
+    if (!passwd.trim()) {
+      alert("비밀번호를 입력해 주십시오.");
+      return;
+    }
+
+    try {
+      const response = await axios.post("/api/member/login", {
+        memberId,
+        passwd,
+      });
+
+      if (response.data.success) {
+        navigate("/"); // 로그인 성공 시 홈으로 이동 (필요시 변경)
+      } else {
+        alert(response.data.message || "로그인에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("로그인 오류:", error);
+      alert("서버 오류로 로그인할 수 없습니다.");
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleLogin();
+    }
+  };
+
+  return (
+    <section className="section section-shaped section-lg">
+      <div className="container pt-lg-7">
+        <div className="row justify-content-center">
+          <div className="col-lg-5">
+            <div className="card bg-secondary shadow border-0">
+              <div className="card-header bg-white pb-5 text-center">
+                <h2>회원 로그인</h2>
+              </div>
+              <div
+                className="card-body px-lg-5 py-lg-5"
+                style={{ background: "#c1c1c1" }}
+              >
+                <div className="form-group mb-3">
+                  <input
+                    type="text"
+                    className="form-control"
+                    placeholder="아이디"
+                    value={memberId}
+                    onChange={(e) => setMemberId(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
+                </div>
+                <div className="form-group focused">
+                  <input
+                    type="password"
+                    className="form-control"
+                    placeholder="비밀번호"
+                    value={passwd}
+                    onChange={(e) => setPasswd(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
+                </div>
+                <div className="text-center">
+                  <button
+                    type="button"
+                    className="btn btn-primary my-4"
+                    style={{ background: "#5fcf80", borderColor: "#5fcf80" }}
+                    onClick={handleLogin}
+                  >
+                    로그인하기
+                  </button>
+                </div>
+                <div className="row mt-3">
+                  <div className="col-6">
+                    <Link to="/member/register">
+                      <small>회원가입</small>
+                    </Link>
+                  </div>
+                  <div className="col-6 text-end">
+                    <Link to="/member/find-idpw">
+                      <small>아이디/비밀번호 찾기</small>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default LoginPage;
