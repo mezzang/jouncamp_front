@@ -1,7 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function QnaList({ qnaList, totalRecord, currentPage, isLoggedIn }) {
+function QnaList({
+  qnaList = [],
+  totalRecord = 0,
+  currentPage = 1,
+  isLoggedIn,
+}) {
   const navigate = useNavigate();
   const [searchField, setSearchField] = useState("subject");
   const [searchQuery, setSearchQuery] = useState("");
@@ -38,52 +43,58 @@ function QnaList({ qnaList, totalRecord, currentPage, isLoggedIn }) {
             </tr>
           </thead>
           <tbody className="text-center">
-            {qnaList.map((qna, idx) => {
-              const replyIndent =
-                qna.tdepth > 0 ? (
-                  <>
-                    {"\u00A0\u00A0".repeat(qna.tdepth)}
-                    <img src="/img/btn_reply.gif" alt="reply" />
-                    &nbsp;
-                  </>
-                ) : null;
+            {qnaList.length === 0 ? (
+              <tr>
+                <td colSpan="5">등록된 게시글이 없습니다.</td>
+              </tr>
+            ) : (
+              qnaList.map((qna, idx) => {
+                const replyIndent =
+                  qna.tdepth > 0 ? (
+                    <>
+                      {"\u00A0\u00A0".repeat(qna.tdepth)}
+                      <img src="/img/btn_reply.gif" alt="reply" />
+                      &nbsp;
+                    </>
+                  ) : null;
 
-              const fileDownload = qna.filename1 ? (
-                <a
-                  href={`/qna/filedown/${qna.no}/1`}
-                  dangerouslySetInnerHTML={{ __html: qna.downStr }}
-                />
-              ) : (
-                "-"
-              );
+                const fileDownload = qna.filename1 ? (
+                  <a
+                    href={`/qna/filedown/${qna.no}/1`}
+                    dangerouslySetInnerHTML={{ __html: qna.downStr }}
+                  />
+                ) : (
+                  "-"
+                );
 
-              return (
-                <tr key={qna.no}>
-                  <td>{totalRecord - (currentPage - 1) * 10 - idx}</td>
-                  <td
-                    style={{
-                      textAlign: "left",
-                      whiteSpace: "nowrap",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                    }}
-                  >
-                    {replyIndent}
-                    <a href={`/qna/detail/${qna.no}`}>{qna.subject}</a>
-                    {isNew(qna.regDate) && (
-                      <img
-                        src="/img/btn_new_red.gif"
-                        alt="new"
-                        style={{ marginLeft: "5px" }}
-                      />
-                    )}
-                  </td>
-                  <td>{fileDownload}</td>
-                  <td>{new Date(qna.regDate).toLocaleDateString()}</td>
-                  <td>{qna.readCnt.toLocaleString()}</td>
-                </tr>
-              );
-            })}
+                return (
+                  <tr key={qna.no}>
+                    <td>{totalRecord - (currentPage - 1) * 10 - idx}</td>
+                    <td
+                      style={{
+                        textAlign: "left",
+                        whiteSpace: "nowrap",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                      }}
+                    >
+                      {replyIndent}
+                      <a href={`/qna/detail/${qna.no}`}>{qna.subject}</a>
+                      {isNew(qna.regDate) && (
+                        <img
+                          src="/img/btn_new_red.gif"
+                          alt="new"
+                          style={{ marginLeft: "5px" }}
+                        />
+                      )}
+                    </td>
+                    <td>{fileDownload}</td>
+                    <td>{new Date(qna.regDate).toLocaleDateString()}</td>
+                    <td>{qna.readCnt.toLocaleString()}</td>
+                  </tr>
+                );
+              })
+            )}
           </tbody>
         </table>
 

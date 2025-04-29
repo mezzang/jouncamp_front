@@ -1,16 +1,16 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import "react-summernote/dist/react-summernote.css"; // 스타일
-import Summernote from "react-summernote";
+import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 
 function QnaEdit({ qnaData, isLoggedIn }) {
   const navigate = useNavigate();
+  const editorRef = useRef(null);
 
   const [name, setName] = useState(qnaData.name || "");
   const [subject, setSubject] = useState(qnaData.subject || "");
-  const [content, setContent] = useState(qnaData.content || "");
   const [file1, setFile1] = useState(null);
+  const [initialContent] = useState(qnaData.content || "");
 
   useEffect(() => {
     if (!isLoggedIn) {
@@ -24,6 +24,8 @@ function QnaEdit({ qnaData, isLoggedIn }) {
   };
 
   const handleSubmit = async () => {
+    const content = editorRef.current?.getContent() || "";
+
     if (!name.trim()) {
       alert("작성자 이름을 입력해 주십시오.");
       return;
@@ -39,7 +41,7 @@ function QnaEdit({ qnaData, isLoggedIn }) {
 
     try {
       const formData = new FormData();
-      formData.append("no", qnaData.no); // 수정할 글 번호
+      formData.append("no", qnaData.no);
       formData.append("name", name);
       formData.append("subject", subject);
       formData.append("content", content);
@@ -47,7 +49,7 @@ function QnaEdit({ qnaData, isLoggedIn }) {
         formData.append("file1", file1);
       }
 
-      await axios.post("/api/qna/mod", formData); // 수정용 API 경로
+      await axios.post("/api/qna/mod", formData);
       alert("수정이 완료되었습니다.");
       navigate(`/qna/detail/${qnaData.no}`);
     } catch (error) {
@@ -84,24 +86,25 @@ function QnaEdit({ qnaData, isLoggedIn }) {
 
         <div className="form-group">
           <label>내용</label>
-          <Summernote
-            value={content}
-            options={{
-              lang: "ko-KR",
+          <Editor
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue={initialContent}
+            init={{
               height: 300,
-              dialogsInBody: true,
-              toolbar: [
-                ["style", ["bold", "italic", "underline"]],
-                ["font", ["strikethrough", "superscript", "subscript"]],
-                ["fontsize", ["fontsize"]],
-                ["color", ["color"]],
-                ["para", ["ul", "ol", "paragraph"]],
-                ["height", ["height"]],
-                ["insert", ["link", "picture", "video"]],
-                ["view", ["fullscreen", "codeview"]],
+              menubar: false,
+              plugins: [
+                "advlist autolink lists link image charmap preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table code help wordcount",
               ],
+              toolbar:
+                "undo redo | formatselect | " +
+                "bold italic backcolor | alignleft aligncenter " +
+                "alignright alignjustify | bullist numlist outdent indent | " +
+                "removeformat | help",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
-            onChange={setContent}
           />
         </div>
 

@@ -1,15 +1,14 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Summernote from "react-summernote";
-import "react-summernote/dist/react-summernote.css";
+import { Editor } from "@tinymce/tinymce-react";
 import axios from "axios";
 
 function QnaWrite({ isLoggedIn }) {
   const navigate = useNavigate();
+  const editorRef = useRef(null);
 
   const [name, setName] = useState("");
   const [subject, setSubject] = useState("");
-  const [content, setContent] = useState("");
   const [file1, setFile1] = useState(null);
 
   useEffect(() => {
@@ -24,6 +23,8 @@ function QnaWrite({ isLoggedIn }) {
   };
 
   const handleSubmit = async () => {
+    const content = editorRef.current?.getContent() || "";
+
     if (!name.trim()) {
       alert("작성자 이름을 입력해 주십시오.");
       return;
@@ -83,23 +84,25 @@ function QnaWrite({ isLoggedIn }) {
 
         <div className="form-group">
           <label>내용</label>
-          <Summernote
-            value={content}
-            options={{
-              lang: "ko-KR",
+          <Editor
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue=""
+            init={{
               height: 300,
-              dialogsInBody: true,
-              toolbar: [
-                ["style", ["bold", "italic", "underline"]],
-                ["font", ["strikethrough", "superscript", "subscript"]],
-                ["fontsize", ["fontsize"]],
-                ["color", ["color"]],
-                ["para", ["ul", "ol", "paragraph"]],
-                ["insert", ["link", "picture", "video"]],
-                ["view", ["fullscreen", "codeview"]],
+              menubar: false,
+              plugins: [
+                "advlist autolink lists link image charmap preview anchor",
+                "searchreplace visualblocks code fullscreen",
+                "insertdatetime media table code help wordcount",
               ],
+              toolbar:
+                "undo redo | formatselect | " +
+                "bold italic backcolor | alignleft aligncenter " +
+                "alignright alignjustify | bullist numlist outdent indent | " +
+                "removeformat | help",
+              content_style:
+                "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
             }}
-            onChange={setContent}
           />
         </div>
 
