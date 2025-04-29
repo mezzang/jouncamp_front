@@ -1,5 +1,7 @@
 import { Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout"; // 공통 레이아웃
+import LayoutMain from "./components/Layout/LayoutMain";
+import Layout from "./components/Layout/Layout";
+import LayoutBasic from "./components/Layout/LayoutBasic";
 
 // 각각의 기능별 라우트 모듈 import
 import CoursesRoutes from "./routes/CoursesRoutes";
@@ -16,16 +18,25 @@ import Privacy from "./pages/Privacy"; // 개인정보 처리방침
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Layout />}>
-        <Route index element={<Home />} /> {/* 메인 홈 */}
-        <Route path="privacy" element={<Privacy />} /> {/* 개인정보처리방침 */}
-        <Route path="courses/*" element={<CoursesRoutes />} /> {/* 강의실 */}
-        <Route path="mypage/*" element={<MyPageRoutes />} /> {/* 마이페이지 */}
-        <Route path="member/*" element={<MemberRoutes />} /> {/* 회원 */}
-        <Route path="notice/*" element={<NoticeRoutes />} /> {/* 공지사항 */}
-        <Route path="qna/*" element={<QnaRoutes />} /> {/* Q&A */}
-        <Route path="data/*" element={<DataRoutes />} /> {/* 자료실 */}
+      {/* 메인/소개용 LayoutMain */}
+      <Route path="/" element={<LayoutMain />}>
+        <Route index element={<Home />} />
         <Route path="about/*" element={<AboutRoutes />} />
+        <Route path="privacy" element={<Privacy />} />
+      </Route>
+
+      {/* 커뮤니티, 자료실 Layout */}
+      <Route element={<Layout />}>
+        <Route path="notice/*" element={<NoticeRoutes />} />
+        <Route path="qna/*" element={<QnaRoutes />} />
+        <Route path="data/*" element={<DataRoutes />} />
+      </Route>
+
+      {/* 로그인/회원/내강의실 LayoutBasic */}
+      <Route element={<LayoutBasic />}>
+        <Route path="courses/*" element={<CoursesRoutes />} />
+        <Route path="mypage/*" element={<MyPageRoutes />} />
+        <Route path="member/*" element={<MemberRoutes />} />
       </Route>
     </Routes>
   );
