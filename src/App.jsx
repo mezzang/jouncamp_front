@@ -18,6 +18,7 @@ import Privacy from "./pages/Privacy"; // 개인정보 처리방침
 function App() {
   return (
     <Routes>
+      {/* route가 자식 컴포넌트로 중첩되어 있다. */}
       {/* 메인/소개용 LayoutMain */}
       <Route path="/" element={<LayoutMain />}>
         <Route index element={<Home />} />
