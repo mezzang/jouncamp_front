@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Breadcrumbs from "../../components/Breadcrumbs"; // 경로 맞게 조정
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 function NoticeList({
   gongList = [],
@@ -32,11 +32,13 @@ function NoticeList({
     <>
       <Breadcrumbs
         title="공지사항"
-        description="학교 및 조은캠프의 주요 안내 사항을 확인해보세요."
+        description="JounCamp LMS의 공지사항을 안내드립니다."
       />
 
       <section className="course">
         <div className="container">
+          <h2>공지사항</h2>
+
           <table className="table" style={{ width: "95%", margin: "0 auto" }}>
             <thead className="text-primary text-center">
               <tr>
@@ -81,10 +83,10 @@ function NoticeList({
             </tbody>
           </table>
 
-          {/* 검색창 */}
           <form
             onSubmit={handleSearch}
-            className="form-inline mt-4 d-flex justify-content-center"
+            className="form-inline d-flex justify-content-center"
+            style={{ marginTop: "40px", marginBottom: "60px" }}
           >
             <select
               className="form-control"
