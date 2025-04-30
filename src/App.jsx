@@ -22,12 +22,13 @@ function App() {
       {/* 메인/소개용 LayoutMain */}
       <Route path="/" element={<LayoutMain />}>
         <Route index element={<Home />} />
-        <Route path="about/*" element={<AboutRoutes />} />
+
         <Route path="privacy" element={<Privacy />} />
       </Route>
 
       {/* 커뮤니티, 자료실 Layout */}
       <Route element={<Layout />}>
+        <Route path="about/*" element={<AboutRoutes />} />
         <Route path="notice/*" element={<NoticeRoutes />} />
         <Route path="qna/*" element={<QnaRoutes />} />
         <Route path="data/*" element={<DataRoutes />} />
