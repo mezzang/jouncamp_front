@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getLectureDetail, getLectureVods } from "../../services/courseService";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 function CourseDetail() {
   const { id } = useParams();
@@ -36,14 +37,10 @@ function CourseDetail() {
 
   return (
     <>
-      <div className="breadcrumbs" data-aos="fade-in">
-        <div className="container">
-          <h2>교과과정</h2>
-          <p>
-            Est dolorum ut non facere possimus quibusdam eligendi voluptatem.
-          </p>
-        </div>
-      </div>
+      <Breadcrumbs
+        title="교과과정"
+        description="Est dolorum ut non facere possimus quibusdam eligendi voluptatem."
+      />
 
       {/* Course Details Section */}
       <section id="course-details" className="course-details">

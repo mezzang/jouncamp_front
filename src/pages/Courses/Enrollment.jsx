@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getLectureDetail } from "../../services/courseService";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 function Enrollment() {
   const { id } = useParams();
@@ -51,12 +52,10 @@ function Enrollment() {
   return (
     <>
       {/* Breadcrumbs */}
-      <div className="breadcrumbs">
-        <div className="container">
-          <h2>교과과정 수강신청</h2>
-          <p>수강할 강의를 선택하고 결제해 주세요.</p>
-        </div>
-      </div>
+      <Breadcrumbs
+        title="교과과정 수강신청"
+        description="수강할 강의를 선택하고 결제해 주세요."
+      ></Breadcrumbs>
 
       {/* Course Enrollment Section */}
       <section id="course-details" className="course-details">

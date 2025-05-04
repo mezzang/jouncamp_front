@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getLectures } from "../../services/courseService"; // 서비스 불러오기
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 function CourseList() {
   const [lectures, setLectures] = useState([]);
@@ -21,12 +22,11 @@ function CourseList() {
   return (
     <>
       {/* Breadcrumbs */}
-      <div className="breadcrumbs">
-        <div className="container">
-          <h2>교과과정</h2>
-          <p>교육과정에 대한 간단한 설명을 적을 수 있습니다.</p>
-        </div>
-      </div>
+      <Breadcrumbs
+        title="교과과정"
+        description="교육과정에 대한 간단한 설명을 적을 수 있습니다."
+      />
+      {/* End Breadcrumbs */}
 
       {/* Courses Section */}
       <section id="courses" className="courses">
