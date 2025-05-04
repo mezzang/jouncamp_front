@@ -32,13 +32,13 @@ function App() {
         <Route path="notice/*" element={<NoticeRoutes />} />
         <Route path="qna/*" element={<QnaRoutes />} />
         <Route path="data/*" element={<DataRoutes />} />
+        <Route path="member/*" element={<MemberRoutes />} />
       </Route>
 
       {/* 로그인/회원/내강의실 LayoutBasic */}
       <Route element={<LayoutBasic />}>
         <Route path="courses/*" element={<CoursesRoutes />} />
         <Route path="mypage/*" element={<MyPageRoutes />} />
-        <Route path="member/*" element={<MemberRoutes />} />
       </Route>
     </Routes>
   );

@@ -6,8 +6,8 @@ import Register from "../pages/Member/RegisterPage";
 function MemberRoutes() {
   return (
     <Routes>
-      <Route path="/member/login" element={<Login />} />
-      <Route path="/member/register" element={<Register />} />
+      <Route path="login" element={<Login />} /> {/* ✅ 상대 경로로 수정 */}
+      <Route path="register" element={<Register />} />
     </Routes>
   );
 }

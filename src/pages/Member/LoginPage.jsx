@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import Breadcrumbs from "../../components/Breadcrumbs";
 import axios from "axios";
 
 function LoginPage() {
@@ -41,66 +42,77 @@ function LoginPage() {
   };
 
   return (
-    <section className="section section-shaped section-lg">
-      <div className="container pt-lg-7">
-        <div className="row justify-content-center">
-          <div className="col-lg-5">
-            <div className="card bg-secondary shadow border-0">
-              <div className="card-header bg-white pb-5 text-center">
-                <h2>회원 로그인</h2>
-              </div>
-              <div
-                className="card-body px-lg-5 py-lg-5"
-                style={{ background: "#c1c1c1" }}
-              >
-                <div className="form-group mb-3">
-                  <input
-                    type="text"
-                    className="form-control"
-                    placeholder="아이디"
-                    value={memberId}
-                    onChange={(e) => setMemberId(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
+    <>
+      {/* ======= Breadcrumbs ======= */}
+      <Breadcrumbs
+        title="회원 로그인"
+        description="Est dolorum ut non facere possimus quibusdam eligendi voluptatem. 
+        Quia id aut similique quia voluptas sit quaerat debitis. 
+        Rerum omnis ipsam aperiam consequatur laboriosam nemo harum praesentium."
+      />
+      {/* ======= End Breadcrumbs ======= */}
+
+      <section className="section section-shaped section-lg">
+        <div className="container pt-lg-7">
+          <div className="row justify-content-center">
+            <div className="col-lg-5">
+              <div className="card bg-secondary shadow border-0">
+                <div className="card-header bg-white pb-5 text-center">
+                  <h2>회원 로그인</h2>
                 </div>
-                <div className="form-group focused">
-                  <input
-                    type="password"
-                    className="form-control"
-                    placeholder="비밀번호"
-                    value={passwd}
-                    onChange={(e) => setPasswd(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
-                </div>
-                <div className="text-center">
-                  <button
-                    type="button"
-                    className="btn btn-primary my-4"
-                    style={{ background: "#5fcf80", borderColor: "#5fcf80" }}
-                    onClick={handleLogin}
-                  >
-                    로그인하기
-                  </button>
-                </div>
-                <div className="row mt-3">
-                  <div className="col-6">
-                    <Link to="/member/register">
-                      <small>회원가입</small>
-                    </Link>
+                <div
+                  className="card-body px-lg-5 py-lg-5"
+                  style={{ background: "#c1c1c1" }}
+                >
+                  <div className="form-group mb-3">
+                    <input
+                      type="text"
+                      className="form-control"
+                      placeholder="아이디"
+                      value={memberId}
+                      onChange={(e) => setMemberId(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                    />
                   </div>
-                  <div className="col-6 text-end">
-                    <Link to="/member/find-idpw">
-                      <small>아이디/비밀번호 찾기</small>
-                    </Link>
+                  <div className="form-group focused">
+                    <input
+                      type="password"
+                      className="form-control"
+                      placeholder="비밀번호"
+                      value={passwd}
+                      onChange={(e) => setPasswd(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                    />
+                  </div>
+                  <div className="text-center">
+                    <button
+                      type="button"
+                      className="btn btn-primary my-4"
+                      style={{ background: "#5fcf80", borderColor: "#5fcf80" }}
+                      onClick={handleLogin}
+                    >
+                      로그인하기
+                    </button>
+                  </div>
+                  <div className="row mt-3">
+                    <div className="col-6">
+                      <Link to="../register">
+                        <small>회원가입</small>
+                      </Link>
+                    </div>
+                    <div className="col-6 text-end">
+                      <Link to="../find-idpw">
+                        <small>아이디/비밀번호 찾기</small>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 
