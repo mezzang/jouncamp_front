@@ -1,3 +1,4 @@
+// src/services/courseService.js
 import axios from "axios";
 
 // 서버 기본 URL 설정 (나중에 필요에 따라 수정 가능)

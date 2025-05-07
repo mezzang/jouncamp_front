@@ -1,3 +1,4 @@
+// src/pages/MyPage/MyLectureList.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getMyCourses } from "../../services/mypageService"; // 나중에 만들 거야

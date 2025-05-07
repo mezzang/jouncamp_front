@@ -1,3 +1,4 @@
+// src/pages/Popup/PopupImage.jsx
 import React from "react";
 
 function PopupImage({ popup }) {

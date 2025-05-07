@@ -1,3 +1,4 @@
+// src/pages/Qna/QnaReply.jsx
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Editor } from "@tinymce/tinymce-react";

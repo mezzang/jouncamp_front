@@ -1,3 +1,4 @@
+// src/pages/Courses/CourseDetail.jsx
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getLectureDetail, getLectureVods } from "../../services/courseService";

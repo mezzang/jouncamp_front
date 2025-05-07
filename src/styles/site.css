@@ -1,6 +1,7 @@
 /* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 /* 네비게이션 바, 버튼, 푸터 스타일 정의 */
+/* src/styles/site.css */
 a.navbar-brand {
   white-space: normal;
   text-align: center;

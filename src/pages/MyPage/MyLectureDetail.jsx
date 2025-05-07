@@ -1,3 +1,4 @@
+// src/pages/MyPage/MyLectureDetail.jsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getMyLectureDetail } from "../../services/mypageService"; // 서비스 함수 나중에 만들 거야

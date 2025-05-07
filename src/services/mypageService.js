@@ -1,3 +1,4 @@
+// src/services/mypageService.js
 import axios from "axios";
 
 // 1. VOD 기본 정보 가져오기

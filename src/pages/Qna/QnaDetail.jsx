@@ -1,3 +1,4 @@
+// src/pages/Qna/QnaDetail.jsx
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
 

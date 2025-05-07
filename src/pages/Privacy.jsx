@@ -1,3 +1,4 @@
+//src/pages/Privacy.jsx
 function Privacy() {
   return (
     <div>

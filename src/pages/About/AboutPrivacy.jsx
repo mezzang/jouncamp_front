@@ -1,3 +1,4 @@
+// src/pages/About/AboutPrivacy.jsx
 import React from "react";
 import Breadcrumbs from "../../components/Breadcrumbs";
 function AboutPrivacy() {

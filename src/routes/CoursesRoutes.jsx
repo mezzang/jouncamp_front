@@ -1,3 +1,4 @@
+// src/routes/CoursesRoutes.jsx
 import { Routes, Route } from "react-router-dom";
 import CourseList from "../pages/Courses/CourseList";
 import CourseDetail from "../pages/Courses/CourseDetail";

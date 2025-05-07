@@ -1,3 +1,4 @@
+// src/pages/MyPage/VodPlayer.jsx
 import React, { useEffect, useRef } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import {

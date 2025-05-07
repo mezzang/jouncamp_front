@@ -1,3 +1,4 @@
+// src/pages/Courses/CourseList.jsx
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getLectures } from "../../services/courseService"; // 서비스 불러오기

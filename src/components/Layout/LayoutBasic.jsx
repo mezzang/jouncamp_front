@@ -1,3 +1,4 @@
+// src/components/Layout/LayoutBasic.jsx
 import { Outlet, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../styles/style.css"; // (기존 site.css 위치에 맞춰 조정)

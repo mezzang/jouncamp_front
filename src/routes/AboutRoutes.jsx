@@ -1,3 +1,4 @@
+// src/routes/AboutRoutes.jsx
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import AboutHome from "../pages/About/AboutHome";

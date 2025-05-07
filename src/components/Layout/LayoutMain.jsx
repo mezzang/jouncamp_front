@@ -1,3 +1,4 @@
+// src/components/Layout/LayoutMain.jsx
 import { Outlet, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../styles/style.css"; // 스타일 경로는 프로젝트에 맞게 조정하세요.

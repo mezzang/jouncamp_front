@@ -1,3 +1,4 @@
+// src/pages/Data/DataDetail.jsx
 import React from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 

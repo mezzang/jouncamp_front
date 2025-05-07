@@ -1,3 +1,4 @@
+// src/pages/Popup/PopupContent.jsx
 import React from "react";
 import "./PopupContent.css"; // 스타일 분리 가능
 
