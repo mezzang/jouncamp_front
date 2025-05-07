@@ -1,14 +1,24 @@
 // src/pages/Member/LoginPage.jsx
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
+import { useAuth } from "../../context/AuthContext"; // AuthContext에서 로그인 상태를 가져옵니다.
 import axios from "axios";
 
 function LoginPage() {
   const [memberId, setMemberId] = useState("");
   const [passwd, setPasswd] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login, isLoggedIn } = useAuth();
 
+  // 이미 로그인된 경우 홈으로 리다이렉트
+  if (isLoggedIn) {
+    navigate("/");
+    return null;
+  }
+
+  // 로그인 핸들러
   const handleLogin = async () => {
     if (!memberId.trim()) {
       alert("회원아이디를 입력해 주십시오.");
@@ -26,7 +36,12 @@ function LoginPage() {
       });
 
       if (response.data.success) {
-        navigate("/"); // 로그인 성공 시 홈으로 이동 (필요시 변경)
+        // AuthContext에 로그인 상태 업데이트
+        login(response.data.token);
+
+        // 이전 페이지 또는 기본 페이지로 리다이렉트
+        const from = location.state?.from?.pathname || "/";
+        navigate(from);
       } else {
         alert(response.data.message || "로그인에 실패했습니다.");
       }
@@ -36,6 +51,7 @@ function LoginPage() {
     }
   };
 
+  // 엔터 키로 로그인 처리
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleLogin();

@@ -1,4 +1,3 @@
-// src/pages/MyPage/MyLectureList.jsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { getMyCourses } from "../../services/mypageService"; // 나중에 만들 거야
@@ -13,6 +12,7 @@ function MyLectureList() {
   // 쿼리스트링(Page=) 파싱
   const queryParams = new URLSearchParams(location.search);
   const page = parseInt(queryParams.get("Page")) || 1;
+  const itemsPerPage = 10; // 페이지당 항목 수
 
   useEffect(() => {
     async function fetchCourses() {
@@ -86,6 +86,7 @@ function MyLectureList() {
                   ]
                     .filter(Boolean)
                     .join(" > ");
+
                   const priceStr =
                     course.price > 0 ? (
                       `${course.price.toLocaleString()}원`
@@ -93,30 +94,26 @@ function MyLectureList() {
                       <span style={{ color: "#d2a573" }}>무료강의</span>
                     );
 
+                  // 번호 계산 수정
+                  const itemNumber = (page - 1) * itemsPerPage + (index + 1);
+
                   return (
                     <tr
                       key={course.no}
-                      onMouseOver={(e) =>
-                        (e.currentTarget.style.backgroundColor = "#f5f5f5")
-                      }
-                      onMouseOut={(e) =>
-                        (e.currentTarget.style.backgroundColor = "")
+                      className="course-row"
+                      onClick={() =>
+                        navigate(`/mypage/lecture/${course.no}?Page=${page}`)
                       }
                     >
                       <td className="text-center" style={{ padding: "5px" }}>
-                        {courses.length - index - (page - 1) * 10}
+                        {itemNumber}
                       </td>
                       <td style={{ padding: "5px" }}>
                         [{cateStr}]
                         <br />
                         <a
-                          href={`/mypage/detail/${course.no}?Page=${page}`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            navigate(
-                              `/mypage/detail/${course.no}?Page=${page}`
-                            );
-                          }}
+                          href={`/mypage/lecture/${course.no}?Page=${page}`}
+                          onClick={(e) => e.preventDefault()}
                         >
                           {course.lecName}
                         </a>
