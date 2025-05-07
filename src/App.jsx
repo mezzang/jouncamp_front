@@ -45,15 +45,7 @@ function App() {
             }
           />
 
-          {/* 강의 (로그인 필요) */}
-          <Route
-            path="courses/*"
-            element={
-              <ProtectedRoute>
-                <CoursesRoutes />
-              </ProtectedRoute>
-            }
-          />
+          <Route path="courses/*" element={<CoursesRoutes />} />
         </Route>
       </Routes>
     </AuthProvider>
