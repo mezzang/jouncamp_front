@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 100;
+    src: url('/css/fonts/NotoSans/NotoSans-Thin.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 100;
+    src: url('/css/fonts/NotoSans/NotoSans-Thin.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 300;
+    src: url('/css/fonts/NotoSans/NotoSans-Light.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 400;
+    src: url('/css/fonts/NotoSans/NotoSans-Regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 500;
+    src: url('/css/fonts/NotoSans/NotoSans-Medium.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 700;
+    src: url('/css/fonts/NotoSans/NotoSans-Bold.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Noto Sans KR';
+    font-style: normal;
+    font-weight: 900;
+    src: url('/css/fonts/NotoSans/NotoSans-Black.woff') format('woff');
+}
+
+
+
+
+
+
+html {
+    font-size: 16px;
+    font-weight: 300;
+    letter-spacing: 0rem;
+    line-height: 1.7;
+    visibility: visible;
+}
+
+
+body, body.fonts-loaded, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, input, select, textarea, p, blockquote, tbody, tfoot, thead, th, td, button {
+    font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', 'Apple SD Gothic Neo', '돋움', 'dotum', sans-serif;
+}
