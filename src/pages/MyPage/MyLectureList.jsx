@@ -1,38 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { getMyCourses } from "../../services/mypageService"; // 나중에 만들 거야
+import { getMyCourses } from "../../services/mypageService";
 
 function MyLectureList() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [courses, setCourses] = useState([]);
+  const [orders, setOrders] = useState([]); // JcOrder 모델과 일치하도록 변수명 변경
   const [loading, setLoading] = useState(true);
+  const [totalRecords, setTotalRecords] = useState(0);
 
-  // 쿼리스트링(Page=) 파싱
+  // 쿼리스트링 파싱 (ASP.NET MVC와 일치하도록)
   const queryParams = new URLSearchParams(location.search);
   const page = parseInt(queryParams.get("Page")) || 1;
+  const searchField = queryParams.get("SearchField") || "";
+  const searchQuery = queryParams.get("SearchQuery") || "";
   const itemsPerPage = 10; // 페이지당 항목 수
 
   useEffect(() => {
-    async function fetchCourses() {
+    async function fetchOrders() {
       try {
-        const data = await getMyCourses(page);
-        setCourses(data);
+        // API 호출 시 searchField와 searchQuery도 전달
+        const data = await getMyCourses(page, searchField, searchQuery);
+        setOrders(data.orders);
+        setTotalRecords(data.totalRecords);
       } catch (error) {
         console.error("내 강의실 목록 불러오기 실패:", error);
       } finally {
         setLoading(false);
       }
     }
-    fetchCourses();
-  }, [page]);
+    fetchOrders();
+  }, [page, searchField, searchQuery]);
+
+  // 번호 계산 로직 (ASP.NET MVC와 동일하게)
+  const calculateNumber = (index) => {
+    return totalRecords - itemsPerPage * (page - 1) - index;
+  };
 
   if (loading) {
     return <div>로딩 중...</div>;
   }
 
-  if (courses.length === 0) {
+  if (orders.length === 0) {
     return <div>수강중인 강의가 없습니다.</div>;
   }
 
@@ -79,47 +89,60 @@ function MyLectureList() {
                 </tr>
               </thead>
               <tbody>
-                {courses.map((course, index) => {
-                  const cateStr = [
-                    course.jcLecture.catename1,
-                    course.jcLecture.catename2,
-                  ]
-                    .filter(Boolean)
-                    .join(" > ");
+                {orders.map((order, index) => {
+                  // 카테고리 문자열 구성 (ASP.NET MVC와 동일한 로직)
+                  let cateStr = "";
+                  if (order.jcLecture?.catename1) {
+                    cateStr += order.jcLecture.catename1;
+                  }
+                  if (order.jcLecture?.catename2) {
+                    cateStr += " > " + order.jcLecture.catename2;
+                  }
 
-                  const priceStr =
-                    course.price > 0 ? (
-                      `${course.price.toLocaleString()}원`
-                    ) : (
+                  // 가격 문자열 구성 (ASP.NET MVC와 동일한 로직)
+                  let priceStr;
+                  if (order.price > 0) {
+                    priceStr = `${order.price.toLocaleString()}원`;
+                  } else {
+                    priceStr = (
                       <span style={{ color: "#d2a573" }}>무료강의</span>
                     );
+                  }
 
-                  // 번호 계산 수정
-                  const itemNumber = (page - 1) * itemsPerPage + (index + 1);
+                  // 번호 계산
+                  const num = calculateNumber(index);
 
                   return (
                     <tr
-                      key={course.no}
+                      key={order.no}
                       className="course-row"
+                      onMouseOver={(e) =>
+                        (e.currentTarget.style.backgroundColor = "#f5f5f5")
+                      }
+                      onMouseOut={(e) =>
+                        (e.currentTarget.style.backgroundColor = "")
+                      }
                       onClick={() =>
-                        navigate(`/mypage/lecture/${course.no}?Page=${page}`)
+                        navigate(
+                          `/Mypage/Detail/${order.no}?Page=${page}&SearchField=${searchField}&SearchQuery=${searchQuery}`
+                        )
                       }
                     >
                       <td className="text-center" style={{ padding: "5px" }}>
-                        {itemNumber}
+                        {num}
                       </td>
                       <td style={{ padding: "5px" }}>
                         [{cateStr}]
                         <br />
                         <a
-                          href={`/mypage/lecture/${course.no}?Page=${page}`}
+                          href={`/Mypage/Detail/${order.no}?Page=${page}&SearchField=${searchField}&SearchQuery=${searchQuery}`}
                           onClick={(e) => e.preventDefault()}
                         >
-                          {course.lecName}
+                          {order.lec_name}
                         </a>
                       </td>
                       <td className="text-center" style={{ padding: "5px" }}>
-                        {course.lecStart} ~ {course.lecEnd}
+                        {order.lec_start} ~ {order.lec_end}
                       </td>
                       <td className="text-center" style={{ padding: "5px" }}>
                         {priceStr}
@@ -129,10 +152,63 @@ function MyLectureList() {
                 })}
               </tbody>
             </table>
+
+            {/* 페이지네이션 컴포넌트 추가 */}
+            <Pagination
+              currentPage={page}
+              totalPages={Math.ceil(totalRecords / itemsPerPage)}
+              onPageChange={(newPage) =>
+                navigate(
+                  `/Mypage/Index?Page=${newPage}&SearchField=${searchField}&SearchQuery=${searchQuery}`
+                )
+              }
+            />
           </div>
         </div>
       </section>
     </>
+  );
+}
+
+// 페이지네이션 컴포넌트
+function Pagination({ currentPage, totalPages, onPageChange }) {
+  return (
+    <nav aria-label="Page navigation">
+      <ul className="pagination justify-content-center">
+        <li className={`page-item ${currentPage === 1 ? "disabled" : ""}`}>
+          <button
+            className="page-link"
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            이전
+          </button>
+        </li>
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((number) => (
+          <li
+            key={number}
+            className={`page-item ${currentPage === number ? "active" : ""}`}
+          >
+            <button className="page-link" onClick={() => onPageChange(number)}>
+              {number}
+            </button>
+          </li>
+        ))}
+        <li
+          className={`page-item ${
+            currentPage === totalPages ? "disabled" : ""
+          }`}
+        >
+          <button
+            className="page-link"
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            다음
+          </button>
+        </li>
+      </ul>
+    </nav>
   );
 }
 
