@@ -2,17 +2,23 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import Breadcrumbs from "../../components/Breadcrumbs";
-import { useAuth } from "../../context/AuthContext"; // AuthContext에서 로그인 상태를 가져옵니다.
+import { useAuth } from "../../context/AuthContext";
 import axios from "axios";
 
 function LoginPage() {
   const [memberId, setMemberId] = useState("");
   const [passwd, setPasswd] = useState("");
+  const [error, setError] = useState(""); // 에러 메시지 상태 추가
   const navigate = useNavigate();
   const location = useLocation();
   const { login, isLoggedIn } = useAuth();
 
-  // 이미 로그인된 경우 홈으로 리다이렉트 (useEffect 내부로 이동)
+  // axios 기본 설정 - 세션 쿠키를 주고받기 위해 필요
+  useEffect(() => {
+    axios.defaults.withCredentials = true;
+  }, []);
+
+  // 이미 로그인된 경우 홈으로 리다이렉트
   useEffect(() => {
     if (isLoggedIn) {
       navigate("/");
@@ -22,33 +28,51 @@ function LoginPage() {
   // 로그인 핸들러
   const handleLogin = async () => {
     if (!memberId.trim()) {
-      alert("회원아이디를 입력해 주십시오.");
+      setError("회원아이디를 입력해 주십시오.");
       return;
     }
     if (!passwd.trim()) {
-      alert("비밀번호를 입력해 주십시오.");
+      setError("비밀번호를 입력해 주십시오.");
       return;
     }
 
+    setError("");
+
     try {
-      const response = await axios.post("/api/member/login", {
-        member_id: memberId, // API 요청 시 필드명 일치시키기 (memberId -> member_id)
-        passwd,
+      const response = await axios.post("/api/Member/login", {
+        MemberId: memberId,
+        Password: passwd,
       });
 
+      // 성공 시 사용자 정보를 AuthContext에 저장
       if (response.data.success) {
-        // AuthContext에 로그인 상태 업데이트
-        login(response.data.token);
+        // 사용자 정보 저장 (토큰이 아닌 사용자 객체)
+        login(response.data.user);
 
         // 이전 페이지 또는 기본 페이지로 리다이렉트
         const from = location.state?.from?.pathname || "/";
         navigate(from);
       } else {
-        alert(response.data.message || "로그인에 실패했습니다.");
+        setError(response.data.message || "로그인에 실패했습니다.");
       }
     } catch (error) {
       console.error("로그인 오류:", error);
-      alert("서버 오류로 로그인할 수 없습니다.");
+
+      // 응답에 따른 오류 메시지 처리
+      if (error.response) {
+        // 서버가 응답한 경우 - 상태 코드에 따른 에러 처리
+        if (error.response.status === 401) {
+          setError("로그인 정보가 맞지 않습니다.");
+        } else {
+          setError(error.response.data.message || "서버 오류가 발생했습니다.");
+        }
+      } else if (error.request) {
+        // 요청은 보냈으나 응답을 받지 못한 경우
+        setError("서버와 통신할 수 없습니다. 인터넷 연결을 확인해주세요.");
+      } else {
+        // 요청 설정 중 오류 발생
+        setError("요청 중 오류가 발생했습니다.");
+      }
     }
   };
 
@@ -95,6 +119,14 @@ function LoginPage() {
                   <div className="text-center text-muted mb-4">
                     <small></small>
                   </div>
+
+                  {/* 에러 메시지 표시 */}
+                  {error && (
+                    <div className="alert alert-danger" role="alert">
+                      {error}
+                    </div>
+                  )}
+
                   <div className="form-group mb-3">
                     <div className="input-group input-group-alternative">
                       <div className="input-group-prepend">
