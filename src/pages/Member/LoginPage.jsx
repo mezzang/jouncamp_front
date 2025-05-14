@@ -13,11 +13,6 @@ function LoginPage() {
   const location = useLocation();
   const { login, isLoggedIn } = useAuth();
 
-  // axios 기본 설정 - 세션 쿠키를 주고받기 위해 필요
-  useEffect(() => {
-    axios.defaults.withCredentials = true;
-  }, []);
-
   // 이미 로그인된 경우 홈으로 리다이렉트
   useEffect(() => {
     if (isLoggedIn) {
@@ -39,6 +34,7 @@ function LoginPage() {
     setError("");
 
     try {
+      // 백엔드 LoginRequest 모델과 일치하도록 필드명 유지
       const response = await axios.post("/api/Member/login", {
         MemberId: memberId,
         Password: passwd,
@@ -63,6 +59,12 @@ function LoginPage() {
         // 서버가 응답한 경우 - 상태 코드에 따른 에러 처리
         if (error.response.status === 401) {
           setError("로그인 정보가 맞지 않습니다.");
+        } else if (
+          error.response.data.errors &&
+          Array.isArray(error.response.data.errors)
+        ) {
+          // 백엔드에서 반환하는 errors 배열 처리 추가
+          setError(error.response.data.errors.join(", "));
         } else {
           setError(error.response.data.message || "서버 오류가 발생했습니다.");
         }
