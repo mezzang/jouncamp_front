@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import dayjs from "dayjs";
 import axios from "axios";
+import Breadcrumbs from "../../components/Breadcrumbs";
 
 function DataList({
   gongList = [],
@@ -76,53 +77,59 @@ function DataList({
   };
 
   return (
-    <section className="course">
-      <div className="container">
-        <h2>자료실</h2>
+    <>
+      <Breadcrumbs title="자료실" description="JounCamp LMS 자료실입니다." />
+      <section className="course">
+        <div className="container">
+          <h2>자료실</h2>
 
-        <table className="table" style={{ width: "95%", margin: "0 auto" }}>
-          <thead className="text-primary text-center">
-            <tr>
-              <th>번호</th>
-              <th>제목</th>
-              <th>첨부파일</th>
-              <th>작성일</th>
-              <th>조회수</th>
-            </tr>
-          </thead>
-          <tbody className="text-center">
-            {gongList.map((item) => renderRow(item, true))}
-            {dataList.map((item, idx) => renderRow(item, false, idx))}
-          </tbody>
-        </table>
+          <table className="table" style={{ width: "95%", margin: "0 auto" }}>
+            <thead className="text-primary text-center">
+              <tr>
+                <th>번호</th>
+                <th>제목</th>
+                <th>첨부파일</th>
+                <th>작성일</th>
+                <th>조회수</th>
+              </tr>
+            </thead>
+            <tbody className="text-center">
+              {gongList.map((item) => renderRow(item, true))}
+              {dataList.map((item, idx) => renderRow(item, false, idx))}
+            </tbody>
+          </table>
 
-        <form
-          onSubmit={handleSearch}
-          className="form-inline mt-4 d-flex justify-content-center"
-        >
-          <select
-            className="form-control"
-            style={{ width: "90px" }}
-            value={searchField}
-            onChange={(e) => setSearchField(e.target.value)}
+          <form
+            onSubmit={handleSearch}
+            className="form-inline mt-4 d-flex justify-content-center"
           >
-            <option value="subject">제목</option>
-            <option value="content">내용</option>
-          </select>
-          <input
-            type="text"
-            className="form-control"
-            style={{ width: "200px", marginLeft: "10px" }}
-            placeholder="검색어를 입력해 주세요"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-          <button className="btn btn-secondary" style={{ marginLeft: "10px" }}>
-            검색
-          </button>
-        </form>
-      </div>
-    </section>
+            <select
+              className="form-control"
+              style={{ width: "90px" }}
+              value={searchField}
+              onChange={(e) => setSearchField(e.target.value)}
+            >
+              <option value="subject">제목</option>
+              <option value="content">내용</option>
+            </select>
+            <input
+              type="text"
+              className="form-control"
+              style={{ width: "200px", marginLeft: "10px" }}
+              placeholder="검색어를 입력해 주세요"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+            <button
+              className="btn btn-secondary"
+              style={{ marginLeft: "10px" }}
+            >
+              검색
+            </button>
+          </form>
+        </div>
+      </section>
+    </>
   );
 }
 
