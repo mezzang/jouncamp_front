@@ -29,10 +29,10 @@ function RegisterPage() {
   const [error, setError] = useState(""); // 에러 메시지 상태 추가
   const navigate = useNavigate();
 
-  // axios 기본 설정 - 세션 쿠키를 주고받기 위해 필요
-  useEffect(() => {
-    axios.defaults.withCredentials = true;
-  }, []);
+  // // axios 기본 설정 - 세션 쿠키를 주고받기 위해 필요
+  // useEffect(() => {
+  //   axios.defaults.withCredentials = true;
+  // }, []);
 
   // 컴포넌트 마운트 시 아이디 입력 필드에 포커스
   useEffect(() => {
