@@ -1,0 +1,25 @@
+{
+  "files": {
+    "main.css": "/static/css/main.6ca01bd8.css",
+    "main.js": "/static/js/main.a3977222.js",
+    "static/media/remixicon.svg?t=1734404658139": "/static/media/remixicon.df9902a6df13645438e1.svg",
+    "static/media/boxicons.svg": "/static/media/boxicons.9e2b21b135bc7d4c803f.svg",
+    "static/media/remixicon.eot?t=1734404658139": "/static/media/remixicon.29066d810a74e994be27.eot",
+    "static/media/remixicon.ttf?t=1734404658139": "/static/media/remixicon.868d1a768f4762dbcc3e.ttf",
+    "static/media/boxicons.eot": "/static/media/boxicons.65a8ce52fc5427e8f94d.eot",
+    "static/media/boxicons.woff": "/static/media/boxicons.d12afc36557395143e4b.woff",
+    "static/media/boxicons.ttf": "/static/media/boxicons.db9ddb1898dbd76badca.ttf",
+    "static/media/remixicon.woff?t=1734404658139": "/static/media/remixicon.ce82bb240fef24f93f95.woff",
+    "static/media/bootstrap-icons.woff?": "/static/media/bootstrap-icons.1295669cd4e305c97f2c.woff",
+    "static/media/remixicon.woff2?t=1734404658139": "/static/media/remixicon.bb211d855a1864aa5b67.woff2",
+    "static/media/bootstrap-icons.woff2?": "/static/media/bootstrap-icons.92ea18a81d737146ff04.woff2",
+    "static/media/boxicons.woff2": "/static/media/boxicons.df635aaf04cd75132f62.woff2",
+    "index.html": "/index.html",
+    "main.6ca01bd8.css.map": "/static/css/main.6ca01bd8.css.map",
+    "main.a3977222.js.map": "/static/js/main.a3977222.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.6ca01bd8.css",
+    "static/js/main.a3977222.js"
+  ]
+}
