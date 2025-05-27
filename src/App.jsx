@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import LayoutMain from "./components/Layout/LayoutMain";
 import Layout from "./components/Layout/Layout";
-import LayoutBasic from "./components/Layout/LayoutBasic";
 import CoursesRoutes from "./routes/CoursesRoutes";
 import MyPageRoutes from "./routes/MyPageRoutes";
 import MemberRoutes from "./routes/MemberRoutes";
@@ -31,11 +30,6 @@ function App() {
           <Route path="qna/*" element={<QnaRoutes />} />
           <Route path="data/*" element={<DataRoutes />} />
           <Route path="member/*" element={<MemberRoutes />} />
-        </Route>
-
-        {/* 로그인/회원/내강의실 LayoutBasic */}
-        <Route element={<LayoutBasic />}>
-          {/* 내강의실 (로그인 필요) */}
           <Route
             path="mypage/*"
             element={
@@ -44,7 +38,6 @@ function App() {
               </ProtectedRoute>
             }
           />
-
           <Route path="courses/*" element={<CoursesRoutes />} />
         </Route>
       </Routes>
